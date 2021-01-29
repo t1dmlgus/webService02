@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
@@ -47,5 +49,42 @@ class PostsRepositoryTest {
 
 
     }
+
+    @Test
+    public void BaseTimeEntity_등록(){
+
+        //given
+
+                // 현재 시간 LodalDateTime
+
+        LocalDateTime now = LocalDateTime.now();
+       // String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+        System.out.println(">>>>>>save111 = " + now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        
+        postsRepository.save(Posts.builder()
+                .title("타이03틀")
+                .content("타이03틀")
+                .author("t1dmlgu03s")
+                .build());
+
+        System.out.println(">>>>>>saved222 = " + now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+
+        //when
+
+        List<Posts> postsList = postsRepository.findAll();
+
+        //then
+
+        Posts posts = postsList.get(0);
+
+        System.out.println(">>>>>>>>>>>>>>>>posts.getCreatedDate()"
+                + posts.getCreatedDate() + "posts.modifiedDate ="+ posts.getModifiedDate());
+
+
+        assertThat(posts.getCreatedDate()).isAfter(now);
+        assertThat(posts.getModifiedDate()).isAfter(now);
+    }
+
 
 }

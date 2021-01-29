@@ -1,0 +1,26 @@
+#spring:
+#  profiles:
+#    active: local     # 기본 환경 선택
+#
+## local 환경
+#___
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb;
+    platform: h2
+    username: sa
+    password:
+    driverClassName: org.h2.Driver
+    #data: classpath:data-h2.sql     # 시작할 때 시작시킬 script
+    profiles: local
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+
+  h2:
+    console:
+      enabled: true
+
+
