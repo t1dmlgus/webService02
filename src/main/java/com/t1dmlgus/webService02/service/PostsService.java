@@ -2,12 +2,17 @@ package com.t1dmlgus.webService02.service;
 
 import com.t1dmlgus.webService02.domain.posts.Posts;
 import com.t1dmlgus.webService02.domain.posts.PostsRepository;
+import com.t1dmlgus.webService02.web.dto.PostsListResponseDto;
 import com.t1dmlgus.webService02.web.dto.PostsResponseDto;
 import com.t1dmlgus.webService02.web.dto.PostsSaveRequestDto;
 import com.t1dmlgus.webService02.web.dto.PostsUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -33,7 +38,7 @@ public class PostsService {
         Posts posts = postsRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
 
 
-        // 비즈니스 로직
+        // posts의 update() 메소드가 비즈니스 로직
         posts.update(requestDto.getTitle(), requestDto.getContent());
 
         return id;
@@ -52,7 +57,25 @@ public class PostsService {
     }
 
 
+    // 등록, 수정, 삭제 기능이 없는 전체 조회 서비스 메소드
+    @Transactional(readOnly = true)
+    public List<PostsListResponseDto> findAllDesc(){
 
-    
+        return postsRepository.findAllDesc().stream()
+                .map(PostsListResponseDto::new)
+                .collect(Collectors.toList());
+
+    }
+
+    // 삭제
+    @Transactional
+    public void delete(Long id){
+
+        Posts posts = postsRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("해당 게시글이 없습니다."));
+
+        postsRepository.delete(posts);
+
+    }
+
     
 }

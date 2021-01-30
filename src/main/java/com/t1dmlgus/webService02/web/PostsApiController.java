@@ -39,5 +39,12 @@ public class PostsApiController {
         return postsService.findById(id);
     }
 
+    // 삭제
+    @DeleteMapping("/api/v1/posts/{id}")
+    public Long delete(@PathVariable Long id){
+
+        postsService.delete(id);
+        return id;
+    }
 
 }
