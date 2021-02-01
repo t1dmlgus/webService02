@@ -18,7 +18,7 @@ public class PostsApiController {
     // 등록
     @PostMapping("/api/v1/posts")
     public Long save(@RequestBody PostsSaveRequestDto requestDto){
-
+        System.out.println("api 넘어옴");
         return postsService.save(requestDto);
     }
 

@@ -12,7 +12,7 @@ spring:
     password:
     driverClassName: org.h2.Driver
     #data: classpath:data-h2.sql     # 시작할 때 시작시킬 script
-    profiles: local
+
 
   jpa:
     show-sql: true
